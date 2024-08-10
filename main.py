@@ -4,7 +4,7 @@ import board
 import neopixel
 
 def impose_color(t,value):
-    return tuple(ele1 * value for ele1 in t)
+    return tuple(int((ele1 * value)//1) for ele1 in t)
 
 
 COLOR = (255, 0, 0)
