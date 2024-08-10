@@ -54,11 +54,12 @@ def rainbow_cycle(wait,j):
     time.sleep(wait)
 
 def chase(pos,front_tail_width=3,back_tail_width=3):
-    pixels[pos] = COLOR
+    pixels.fill((0, 0, 0))
     for i in range(1,front_tail_width+1):
         pixels[pos-i] = impose_color(COLOR,1/i)
     for i in range(1,back_tail_width+1):
-        pixels[pos+i] = impose_color(COLOR,1/i)
+        pixels[pos+i if pos+i < num_pixels else -1] = impose_color(COLOR,1/i)
+    pixels[pos] = COLOR
     pixels.show()
     
 
