@@ -1,23 +1,20 @@
-# SPDX-FileCopyrightText: 2021 ladyada for Adafruit Industries
-# SPDX-License-Identifier: MIT
-
-# Simple test for NeoPixels on Raspberry Pi
+import flask
 import time
 import board
 import neopixel
+from numpy import multiply,divide,subtract,add #used for tuple imposing tuples ontop of each other
 
-
+COLOR = (255, 0, 0)
 # Choose an open pin connected to the Data In of the NeoPixel strip, i.e. board.D18
 # NeoPixels must be connected to D10, D12, D18 or D21 to work.
 pixel_pin = board.D18
 
 # The number of NeoPixels
 num_pixels = 60
-
+app = flask.Flask(__name__)
 # The order of the pixel colors - RGB or GRB. Some NeoPixels have red and green reversed!
 # For RGBW NeoPixels, simply change the ORDER to RGBW or GRBW.
 ORDER = neopixel.RGB
-
 pixels = neopixel.NeoPixel(
     pixel_pin, num_pixels, brightness=0.2, auto_write=False, pixel_order=ORDER
 )
@@ -45,35 +42,37 @@ def wheel(pos):
     return (r, g, b) if ORDER in (neopixel.RGB, neopixel.GRB) else (r, g, b, 0)
 
 
-def rainbow_cycle(wait):
-    for j in range(255):
-        for i in range(num_pixels):
-            pixel_index = (i * 256 // num_pixels) + j
-            pixels[i] = wheel(pixel_index & 255)
-        pixels.show()
-        time.sleep(wait)
+def rainbow_cycle(wait,j):
+    for i in range(num_pixels):
+        pixel_index = (i * 256 // num_pixels) + j
+        pixels[i] = wheel(pixel_index & 255)
+    pixels.show()
+    time.sleep(wait)
 
+def chase(pos,front_tail_width=3,back_tail_width=3):
+    pixels[pos] = COLOR
+    for i in range(1,front_tail_width+1):
+        pixels[pos-i] = multiply(COLOR,(1/i))
+    for i in range(1,back_tail_width+1):
+        pixels[pos+i] = multiply(COLOR,(1/i))
+    pixels.show()
+    
+
+
+PATTERNS = {
+    'rainbow': rainbow_cycle,
+    'chase':chase,
+}
+
+
+@app.route('/')
+def index():
+    heap_patterns = """"""
+    for pattern in PATTERNS:
+        heap_patterns += f'<a href="/run/{pattern}">{pattern}</a><br>'
+    return flask.render_template('index.html',patterns=heap_patterns)
 
 while True:
-    # Comment this line out if you have RGBW/GRBW NeoPixels
-    pixels.fill((255, 0, 0))
-    # Uncomment this line if you have RGBW/GRBW NeoPixels
-    # pixels.fill((255, 0, 0, 0))
-    pixels.show()
-    time.sleep(1)
-
-    # Comment this line out if you have RGBW/GRBW NeoPixels
-    pixels.fill((0, 255, 0))
-    # Uncomment this line if you have RGBW/GRBW NeoPixels
-    # pixels.fill((0, 255, 0, 0))
-    pixels.show()
-    time.sleep(1)
-
-    # Comment this line out if you have RGBW/GRBW NeoPixels
-    pixels.fill((0, 0, 255))
-    # Uncomment this line if you have RGBW/GRBW NeoPixels
-    # pixels.fill((0, 0, 255, 0))
-    pixels.show()
-    time.sleep(1)
-
-    rainbow_cycle(0.001)  # rainbow cycle with 1ms delay per step
+    for i in range(num_pixels):
+        chase(i,3,3)
+        time.sleep(0.1)
