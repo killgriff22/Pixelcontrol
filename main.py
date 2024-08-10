@@ -2,7 +2,18 @@ import flask
 import time
 import board
 import neopixel
-from numpy import multiply,divide,subtract,add #used for tuple imposing tuples ontop of each other
+
+def tuple_multiply(t,t2):
+    return tuple(ele1 * ele2 for ele1, ele2 in zip(t, t2))
+
+def tuple_divide(t,t2):
+    return tuple(ele1 / ele2 for ele1, ele2 in zip(t, t2))
+
+def tuple_add(t,t2):
+    return tuple(ele1 + ele2 for ele1, ele2 in zip(t, t2))
+
+def tuple_subtract(t,t2):
+    return tuple(ele1 - ele2 for ele1, ele2 in zip(t, t2))
 
 COLOR = (255, 0, 0)
 # Choose an open pin connected to the Data In of the NeoPixel strip, i.e. board.D18
@@ -53,9 +64,9 @@ def rainbow_cycle(wait,j):
 def chase(pos,front_tail_width=3,back_tail_width=3):
     pixels[pos] = COLOR
     for i in range(1,front_tail_width+1):
-        pixels[pos-i] = multiply(COLOR,(1/i))
+        pixels[pos-i] = tuple_multiply(COLOR,(1/i))
     for i in range(1,back_tail_width+1):
-        pixels[pos+i] = multiply(COLOR,(1/i))
+        pixels[pos+i] = tuple_multiply(COLOR,(1/i))
     pixels.show()
     
 
