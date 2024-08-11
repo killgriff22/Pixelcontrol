@@ -100,7 +100,7 @@ def index():
 def run_pattern(pattern_name):
     global pattern
     if pattern_name in PATTERNS:
-        pattern = [PATTERNS[pattern_name],0]
+        pattern = [PATTERNS[pattern_name],0,0,0,1,1]
     return flask.redirect('/')
 
 @app.route('/speed/<int:speed_>')
