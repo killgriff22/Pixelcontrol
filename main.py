@@ -98,7 +98,7 @@ def run_pattern(pattern_name):
 def mainloop():
     i=0# the current pixel position
     while True:
-        #at the top of the loop, we check to see if there has been an update in the git repo
+        """#at the top of the loop, we check to see if there has been an update in the git repo
         #first, make note of the files inside our containing folder, and a simplified description (or "hash") of the contents of each file
         #os.walk can be used to get a list of all files in a directory and its subdirectories
         #for consicesness, i will store the before and after as a dictionary
@@ -120,7 +120,7 @@ def mainloop():
         diff = set(after.items()) - set(before.items())
         if diff:
             #if there is a difference, restart the system
-            os.system("sudo reboot")
+            os.system("sudo reboot")"""
         pattern[0](*pattern[1:])#this is the bit of code that made me question copilot for a moment
         pattern[1] += 1
         match pattern[0].__name__:
