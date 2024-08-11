@@ -1,3 +1,12 @@
+"""
+Important:
+The auto-reloader restarts the Pi.
+You will need to log back into the Pi after the auto-reloader restarts it.
+startup takes 30 seconds to 2 minutes, if it still doesnt work, contact me
+When in visual studio, the only module you shouldnt have is "board".
+"board" is a module that is only available on the raspberry pi, and is only referenced once.
+
+"""
 import os
 import flask
 import time
@@ -88,6 +97,29 @@ def run_pattern(pattern_name):
 def mainloop():
     i=0# the current pixel position
     while True:
+        #at the top of the loop, we check to see if there has been an update in the git repo
+        #first, make note of the files inside our containing folder, and a simplified description (or "hash") of the contents of each file
+        #os.walk can be used to get a list of all files in a directory and its subdirectories
+        #for consicesness, i will store the before and after as a dictionary
+        before = {}
+        for root, dirs, files in os.walk("."):
+            for file in files:
+                with open(os.path.join(root, file), "r") as f:
+                    before[os.path.join(root, file)] = hash(f.read())
+        #pull the repo using git
+        os.system("git pull")
+        #check the files again
+        after = {}
+        for root, dirs, files in os.walk("."):
+            for file in files:
+                with open(os.path.join(root, file), "r") as f:
+                    after[os.path.join(root, file)] = hash(f.read())
+        #compare the files
+        #for speed, and "becuase i can", im gonna turn the hashes into sets and do some python magic to do a quick comparison
+        diff = set(after.items()) - set(before.items())
+        if diff:
+            #if there is a difference, restart the system
+            os.system("sudo reboot")
         pattern[0](*pattern[1:])#this is the bit of code that made me question copilot for a moment
         pattern[1] += 1
         match pattern[0].__name__:
