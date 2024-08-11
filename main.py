@@ -112,7 +112,7 @@ def set_speed(speed_):
 def pull():
     os.system("git pull")
     return flask.redirect('/')
-def mainloop():
+def loop():
     while True:
         pattern[0](*pattern[1:4])#this is the bit of code that made me question copilot for a moment
         pattern[1] += pattern[4]*pattern[5]
