@@ -49,7 +49,7 @@ def wheel(pos):
     return (r, g, b) if ORDER in (neopixel.RGB, neopixel.GRB) else (r, g, b, 0)
 
 
-def rainbow_cycle(j):
+def rainbow_cycle(j,*args):
     for i in range(num_pixels):
         pixel_index = (i * 256 // num_pixels) + j
         pixels[i] = wheel(pixel_index & 255)
