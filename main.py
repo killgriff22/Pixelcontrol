@@ -68,7 +68,7 @@ PATTERNS = {
     'rainbow': rainbow_cycle,
     'chase':chase,
 }
-
+pattern = [chase,0,3,3]
 
 @app.route('/')
 def index():
@@ -77,5 +77,9 @@ def index():
         heap_patterns += f'<a href="/run/{pattern}">{pattern}</a><br>'
     return flask.render_template('index.html',patterns=heap_patterns)
 
-app.run('0.0.0.0',port=80)
-print('Server started')
+def mainloop():
+    while True:
+        pattern[0](*pattern[1:])
+        time.sleep(0.1)
+
+app.run('0.0.0.0',port=6060)
