@@ -126,6 +126,4 @@ def mainloop():
                     pattern[5] *= -1
         print(pattern[4], pattern[1], pattern[5])
         time.sleep(0.1)
-mainthread = threading.Thread(target=mainloop)
-mainthread.start()
 app.run('0.0.0.0',port=6060,debug=True)
