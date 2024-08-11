@@ -2,10 +2,11 @@
 Important:
 The auto-reloader restarts the Pi.
 You will need to log back into the Pi after the auto-reloader restarts it.
-startup takes 30 seconds to 2 minutes, if it still doesnt work, contact me
+startup takes 30 seconds to 2 minutes, if it still doesnt work, contact me.
+the script will start up automatically after the pi restarts.
+if you want to view the output of the script, you can do so by running the command "screen -x" when logged into the Pi
 When in visual studio, the only module you shouldnt have is "board".
 "board" is a module that is only available on the raspberry pi, and is only referenced once.
-
 """
 import os
 import flask
