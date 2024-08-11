@@ -34,7 +34,7 @@ app = flask.Flask(__name__)
 # For RGBW NeoPixels, simply change the ORDER to RGBW or GRBW.
 ORDER = neopixel.RGB
 pixels = neopixel.NeoPixel(
-    pixel_pin, num_pixels, brightness=0.2, auto_write=False, pixel_order=ORDER
+    pixel_pin, num_pixels, brightness=1.0, auto_write=False, pixel_order=ORDER
 )
 pixels.fill((0, 0, 0))
 pixels.show()
@@ -91,7 +91,14 @@ PATTERNS = {
     'chase':chase,
     'bounce':bounce
 }
-pattern = [chase,0,0,0]
+pattern = [
+    chase, #the function that holds the pattern
+    0, #the current pixel position
+    0, #front tail length
+    0, #rear tail legnth
+    1, #speed
+    1  #direction
+]
 
 @app.route('/')
 def index():
@@ -110,8 +117,7 @@ def run_pattern(pattern_name):
 
 @app.route('/speed/<int:speed_>')
 def set_speed(speed_):
-    global speed
-    speed = speed_
+    pattern[4] = speed_
     return flask.redirect('/')
 
 @app.route('/pull')
@@ -119,10 +125,9 @@ def pull():
     os.system("git pull")
     return flask.redirect('/')
 def mainloop():
-    global speed, pattern, direction
     while True:
-        pattern[0](*pattern[1:])#this is the bit of code that made me question copilot for a moment
-        pattern[1] += 1*direction
+        pattern[0](*pattern[1:4])#this is the bit of code that made me question copilot for a moment
+        pattern[1] += pattern[4]*pattern[5]
         match pattern[0].__name__:
             case "chase":
                 pattern[1] %= num_pixels# take the remainder of the division of the current pixel position by num_pixels so we dont go out of bounds of the list
@@ -130,7 +135,7 @@ def mainloop():
                 pattern[1] %= 256 # take the remainder of the division of the current pixel position by 256 so that we dont mess up the rainbow math
             case "bounce":
                 if pattern[1] > num_pixels-1 or pattern[1] < 0:
-                    direction *= -1
+                    pattern[5] *= -1
         print(speed, pattern[1], direction)
         time.sleep(0.1)
 mainthread = threading.Thread(target=mainloop)
