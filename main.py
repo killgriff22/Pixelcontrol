@@ -21,6 +21,8 @@ def impose_color(t,value):
 
 
 COLOR = (153, 103, 52)
+direction = 1
+speed = 1
 # Choose an open pin connected to the Data In of the NeoPixel strip, i.e. board.D18
 # NeoPixels must be connected to D10, D12, D18 or D21 to work.
 pixel_pin = board.D18
@@ -68,17 +70,26 @@ def rainbow_cycle(j):
 def chase(pos,front_tail_width=3,back_tail_width=3):
     pixels.fill((0, 0, 0))
     for i in range(1,front_tail_width+1):
-        pixels[pos-i] = impose_color(COLOR,1/i)
+        pixels[pos-i if pos-i >= 0 else 0] = impose_color(COLOR,1/i)
     for i in range(1,back_tail_width+1):
         pixels[pos+i if pos+i < num_pixels else -1] = impose_color(COLOR,1/i)
     pixels[pos] = COLOR
     pixels.show()
     
-
+def bounce(pos,front_tail_width=3,back_tail_width=3):
+    #this is literally just the chase function, called a different name
+    pixels.fill((0, 0, 0))
+    for i in range(1,front_tail_width+1):
+        pixels[pos-i if pos-i >= 0 else 0] = impose_color(COLOR,1/i)
+    for i in range(1,back_tail_width+1):
+        pixels[pos+i if pos+i < num_pixels else -1] = impose_color(COLOR,1/i)
+    pixels[pos] = COLOR
+    pixels.show() 
 
 PATTERNS = {
     'rainbow': rainbow_cycle,
     'chase':chase,
+    'bounce':bounce
 }
 pattern = [chase,0,3,3]
 
@@ -96,9 +107,8 @@ def run_pattern(pattern_name):
         pattern = [PATTERNS[pattern_name],0]
     return flask.redirect('/')
 def mainloop():
-    i=0# the current pixel position
     while True:
-        """#at the top of the loop, we check to see if there has been an update in the git repo
+        #at the top of the loop, we check to see if there has been an update in the git repo
         #first, make note of the files inside our containing folder, and a simplified description (or "hash") of the contents of each file
         #os.walk can be used to get a list of all files in a directory and its subdirectories
         #for consicesness, i will store the before and after as a dictionary
@@ -120,14 +130,16 @@ def mainloop():
         diff = set(after.items()) - set(before.items())
         if diff:
             #if there is a difference, restart the system
-            os.system("sudo reboot")"""
+            os.system("sudo reboot")
         pattern[0](*pattern[1:])#this is the bit of code that made me question copilot for a moment
-        pattern[1] += 1
+        pattern[1] += speed*direction
         match pattern[0].__name__:
             case "chase":
                 pattern[1] %= num_pixels# take the remainder of the division of the current pixel position by num_pixels so we dont go out of bounds of the list
             case "rainbow_cycle":
                 pattern[1] %= 256 # take the remainder of the division of the current pixel position by 256 so that we dont mess up the rainbow math
+            case "bounce":
+                direction *= -1
         time.sleep(0.1)
 mainthread = threading.Thread(target=mainloop)
 mainthread.start()
