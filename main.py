@@ -98,6 +98,7 @@ def index():
     heap_patterns = """"""
     for pattern in PATTERNS:
         heap_patterns += f'<a href="/run/{pattern}">{pattern}</a><br>'
+    heap_patterns += f"""<a href="/pull">Pull</a><br>"""
     return flask.render_template('index.html',patterns=heap_patterns)
 
 @app.route('/run/<pattern_name>')
@@ -106,10 +107,20 @@ def run_pattern(pattern_name):
     if pattern_name in PATTERNS:
         pattern = [PATTERNS[pattern_name],0]
     return flask.redirect('/')
+
+@app.route('/speed/<int:speed_>')
+def set_speed(speed_):
+    global speed
+    speed = speed_
+    return flask.redirect('/')
+
+@app.route('/pull')
+def pull():
+    os.system("git pull")
+    return flask.redirect('/')
 def mainloop():
     global speed, pattern, direction
     while True:
-        os.system("git pull")
         pattern[0](*pattern[1:])#this is the bit of code that made me question copilot for a moment
         pattern[1] += speed*direction
         match pattern[0].__name__:
