@@ -107,6 +107,7 @@ def run_pattern(pattern_name):
         pattern = [PATTERNS[pattern_name],0]
     return flask.redirect('/')
 def mainloop():
+    global speed, pattern, direction
     while True:
         os.system("git pull")
         pattern[0](*pattern[1:])#this is the bit of code that made me question copilot for a moment
