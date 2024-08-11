@@ -49,12 +49,11 @@ def wheel(pos):
     return (r, g, b) if ORDER in (neopixel.RGB, neopixel.GRB) else (r, g, b, 0)
 
 
-def rainbow_cycle(wait,j):
+def rainbow_cycle(j):
     for i in range(num_pixels):
         pixel_index = (i * 256 // num_pixels) + j
         pixels[i] = wheel(pixel_index & 255)
     pixels.show()
-    time.sleep(wait)
 
 def chase(pos,front_tail_width=3,back_tail_width=3):
     pixels.fill((0, 0, 0))
