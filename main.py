@@ -77,7 +77,5 @@ def index():
         heap_patterns += f'<a href="/run/{pattern}">{pattern}</a><br>'
     return flask.render_template('index.html',patterns=heap_patterns)
 
-while True:
-    for i in range(num_pixels):
-        chase(i,3,3)
-        time.sleep(0.1)
+app.run('0.0.0.0',port=80)
+print('Server started')
