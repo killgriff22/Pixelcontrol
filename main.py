@@ -94,8 +94,8 @@ PATTERNS = {
 pattern = [
     chase, #the function that holds the pattern
     0, #the current pixel position
-    0, #front tail length
-    0, #rear tail legnth
+    3, #front tail length
+    3, #rear tail legnth
     1, #speed
     1  #direction
 ]
