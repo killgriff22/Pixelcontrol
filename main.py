@@ -108,29 +108,7 @@ def run_pattern(pattern_name):
     return flask.redirect('/')
 def mainloop():
     while True:
-        #at the top of the loop, we check to see if there has been an update in the git repo
-        #first, make note of the files inside our containing folder, and a simplified description (or "hash") of the contents of each file
-        #os.walk can be used to get a list of all files in a directory and its subdirectories
-        #for consicesness, i will store the before and after as a dictionary
-        before = {}
-        for root, dirs, files in os.walk("."):
-            for file in files:
-                with open(os.path.join(root, file), "rb") as f:
-                    before[os.path.join(root, file)] = hash(f.read())
-        #pull the repo using git
         os.system("git pull")
-        #check the files again
-        after = {}
-        for root, dirs, files in os.walk("."):
-            for file in files:
-                with open(os.path.join(root, file), "rb") as f:
-                    after[os.path.join(root, file)] = hash(f.read())
-        #compare the files
-        #for speed, and "becuase i can", im gonna turn the hashes into sets and do some python magic to do a quick comparison
-        diff = set(after.items()) - set(before.items())
-        if diff:
-            #if there is a difference, restart the system
-            print("reboot")#os.system("sudo reboot")
         pattern[0](*pattern[1:])#this is the bit of code that made me question copilot for a moment
         pattern[1] += speed*direction
         match pattern[0].__name__:
@@ -143,4 +121,4 @@ def mainloop():
         time.sleep(0.1)
 mainthread = threading.Thread(target=mainloop)
 mainthread.start()
-app.run('0.0.0.0',port=6060)
+app.run('0.0.0.0',port=6060,debug=True)
