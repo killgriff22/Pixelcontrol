@@ -130,7 +130,7 @@ def mainloop():
         diff = set(after.items()) - set(before.items())
         if diff:
             #if there is a difference, restart the system
-            os.system("sudo reboot")
+            print("reboot")#os.system("sudo reboot")
         pattern[0](*pattern[1:])#this is the bit of code that made me question copilot for a moment
         pattern[1] += speed*direction
         match pattern[0].__name__:
