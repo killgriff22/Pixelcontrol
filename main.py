@@ -1,7 +1,10 @@
+import os
 import flask
 import time
 import board
 import neopixel
+import threading
+
 
 def impose_color(t,value):
     return tuple(int((ele1 * value)//1) for ele1 in t)
@@ -77,9 +80,23 @@ def index():
         heap_patterns += f'<a href="/run/{pattern}">{pattern}</a><br>'
     return flask.render_template('index.html',patterns=heap_patterns)
 
+@app.route('/run/<pattern_name>')
+def run_pattern(pattern_name):
+    global pattern
+    if pattern_name in PATTERNS:
+        pattern = [PATTERNS[pattern_name],0]
+    return flask.redirect('/')
 def mainloop():
+    i=0# the current pixel position
     while True:
-        pattern[0](*pattern[1:])
+        pattern[0](*pattern[1:])#this is the bit of code that made me question copilot for a moment
+        pattern[1] += 1
+        match pattern[0].__name__:
+            case "chase":
+                pattern[1] %= num_pixels# take the remainder of the division of the current pixel position by num_pixels so we dont go out of bounds of the list
+            case "rainbow_cycle":
+                pattern[1] %= 256 # take the remainder of the division of the current pixel position by 256 so that we dont mess up the rainbow math
         time.sleep(0.1)
-
+mainthread = threading.Thread(target=mainloop)
+mainthread.start()
 app.run('0.0.0.0',port=6060)
