@@ -20,7 +20,7 @@ def impose_color(t,value):
     return tuple(int((ele1 * value)//1) for ele1 in t)
 
 
-COLOR = (153, 102, 51)
+COLOR = (153, 103, 52)
 # Choose an open pin connected to the Data In of the NeoPixel strip, i.e. board.D18
 # NeoPixels must be connected to D10, D12, D18 or D21 to work.
 pixel_pin = board.D18
