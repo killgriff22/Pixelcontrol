@@ -122,14 +122,15 @@ def mainloop():
     global speed, pattern, direction
     while True:
         pattern[0](*pattern[1:])#this is the bit of code that made me question copilot for a moment
-        pattern[1] += 1
+        pattern[1] += speed*direction
         match pattern[0].__name__:
             case "chase":
                 pattern[1] %= num_pixels# take the remainder of the division of the current pixel position by num_pixels so we dont go out of bounds of the list
             case "rainbow_cycle":
                 pattern[1] %= 256 # take the remainder of the division of the current pixel position by 256 so that we dont mess up the rainbow math
             case "bounce":
-                direction *= -1
+                if pattern[1] >= num_pixels-1 or pattern[1] <= 0:
+                    direction *= -1
         time.sleep(0.1)
 mainthread = threading.Thread(target=mainloop)
 mainthread.start()
