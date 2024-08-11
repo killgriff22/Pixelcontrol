@@ -92,7 +92,7 @@ PATTERNS = {
     'bounce':bounce
 }
 pattern = [
-    chase, #the function that holds the pattern
+    bounce, #the function that holds the pattern
     0, #the current pixel position
     3, #front tail length
     3, #rear tail legnth
