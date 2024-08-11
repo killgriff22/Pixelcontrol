@@ -1,4 +1,8 @@
 <title>Strip Controller</title>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='index.css') }}">
 <body>
     {{patterns|safe}}
+    <div class="slidecontainer">
+        <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+      </div>
 </body>
