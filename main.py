@@ -91,7 +91,7 @@ PATTERNS = {
     'chase':chase,
     'bounce':bounce
 }
-pattern = [chase,0,3,3]
+pattern = [chase,0,0,0]
 
 @app.route('/')
 def index():
@@ -129,7 +129,7 @@ def mainloop():
             case "rainbow_cycle":
                 pattern[1] %= 256 # take the remainder of the division of the current pixel position by 256 so that we dont mess up the rainbow math
             case "bounce":
-                if pattern[1] >= num_pixels-1 or pattern[1] <= 0:
+                if pattern[1] > num_pixels-1 or pattern[1] < 0:
                     direction *= -1
         print(speed, pattern[1], direction)
         time.sleep(0.1)
