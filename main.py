@@ -131,6 +131,7 @@ def mainloop():
             case "bounce":
                 if pattern[1] >= num_pixels-1 or pattern[1] <= 0:
                     direction *= -1
+        print(speed, pattern[1], direction)
         time.sleep(0.1)
 mainthread = threading.Thread(target=mainloop)
 mainthread.start()
