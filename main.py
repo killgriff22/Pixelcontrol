@@ -20,7 +20,7 @@ def impose_color(t,value):
     return tuple(int((ele1 * value)//1) for ele1 in t)
 
 
-COLOR = (255, 0, 0)
+COLOR = (153, 102, 51)
 # Choose an open pin connected to the Data In of the NeoPixel strip, i.e. board.D18
 # NeoPixels must be connected to D10, D12, D18 or D21 to work.
 pixel_pin = board.D18
@@ -105,7 +105,7 @@ def mainloop():
         before = {}
         for root, dirs, files in os.walk("."):
             for file in files:
-                with open(os.path.join(root, file), "r") as f:
+                with open(os.path.join(root, file), "rb") as f:
                     before[os.path.join(root, file)] = hash(f.read())
         #pull the repo using git
         os.system("git pull")
@@ -113,7 +113,7 @@ def mainloop():
         after = {}
         for root, dirs, files in os.walk("."):
             for file in files:
-                with open(os.path.join(root, file), "r") as f:
+                with open(os.path.join(root, file), "rb") as f:
                     after[os.path.join(root, file)] = hash(f.read())
         #compare the files
         #for speed, and "becuase i can", im gonna turn the hashes into sets and do some python magic to do a quick comparison
