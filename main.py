@@ -14,7 +14,6 @@ import time
 import board
 import neopixel
 import threading
-import thread_variable_utility as tvu
 
 app = flask.Flask(__name__)
 def impose_color(t,value):
@@ -75,6 +74,8 @@ def bounce(pos,front_tail_width=3,back_tail_width=3):
         pixels[pos+i if pos+i < num_pixels else -1] = impose_color(COLOR,1/i)
     pixels[pos if pos < num_pixels else -1] = COLOR
     pixels.show() 
+
+import thread_variable_utility as tvu # this has to be imported after the functions are defined because the module relies on the above functions
 
 def blank(*args):
     return
