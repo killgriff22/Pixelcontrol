@@ -13,7 +13,8 @@ import flask
 import time
 import threading
 import thread_variable_utility as tvu
-from patterns import * #import all the patterns from the patterns.py file "*" means any objects, like variables and functions
+# import all the patterns from the patterns.py file "*" means any objects, like variables and functions
+from patterns import *
 app = flask.Flask(__name__)
 
 pixels.fill((0, 0, 0))
@@ -21,13 +22,14 @@ pixels.show()
 pattern_file = "../pattern.py"
 
 PATTERNS = {
-    'rainbow': rainbow_cycle,
-    'chase':chase,
-    'bounce':bounce,
-    "off":off
+    'rainbow': rainbow,
+    'chase': chase,
+    'bounce': bounce,
+    "off": off
 }
 if not os.path.exists(pattern_file):
-    tvu.write(pattern_file,["bounce",0,0,0,1,1])
+    tvu.write(pattern_file, ["bounce", 0, 0, 0, 1, 1])
+
 
 @app.route('/')
 def index():
@@ -37,41 +39,52 @@ def index():
     heap_patterns += f"""<a href="/pull">Pull</a><br>"""
     return heap_patterns
 
+
 @app.route('/run/<pattern_name>')
 def run_pattern(pattern_name):
     if pattern_name in PATTERNS:
-        tvu.write(pattern_file,[pattern_name,0,0,0,1,1])
+        tvu.write(pattern_file, [pattern_name, 0, 0, 0, 1, 1])
     return flask.redirect('/')
+
 
 @app.route('/speed/<int:speed_>')
 def set_speed(speed_):
     pattern = tvu.read(pattern_file)
     pattern[4] = speed_
-    tvu.write(pattern_file,pattern)
+    tvu.write(pattern_file, pattern)
     return flask.redirect('/')
+
 
 @app.route('/pull')
 def pull():
     os.system("git pull")
     return flask.redirect('/')
+
+
 def loop():
     while True:
         pattern = tvu.read(pattern_file)
         pattern[0] = PATTERNS[pattern[0]]
-        pattern[0](*pattern[1:4])#this is the bit of code that made me question copilot for a moment
-        pattern[1] += pattern[4]*pattern[5] if not pattern[0].__name__ in ["off","blank"] else 0
+        # this is the bit of code that made me question copilot for a moment
+        pattern[0](*pattern[1:4])
+        pattern[1] += pattern[4] * \
+            pattern[5] if not pattern[0].__name__ in ["off", "blank"] else 0
         match pattern[0].__name__:
             case "chase":
-                pattern[1] %= num_pixels# take the remainder of the division of the current pixel position by num_pixels so we dont go out of bounds of the list
+                # take the remainder of the division of the current pixel position by num_pixels so we dont go out of bounds of the list
+                pattern[1] %= num_pixels
             case "rainbow_cycle":
-                pattern[1] %= 256 # take the remainder of the division of the current pixel position by 256 so that we dont mess up the rainbow math
+                # take the remainder of the division of the current pixel position by 256 so that we dont mess up the rainbow math
+                pattern[1] %= 256
             case "bounce":
                 if pattern[1] > num_pixels-1 or pattern[1] < 0:
                     pattern[5] *= -1
         print(pattern[4], pattern[1], pattern[5])
         pattern[0] = pattern[0].__name__
-        tvu.write(pattern_file,pattern)
+        tvu.write(pattern_file, pattern)
         time.sleep(0.1)
+
+
 mainthread = threading.Thread(target=loop)
 mainthread.start()
-app.run('0.0.0.0',port=6060,debug=True)
+app.run('0.0.0.0', port=6060, debug=True)
