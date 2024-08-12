@@ -75,8 +75,7 @@ def bounce(pos,front_tail_width=3,back_tail_width=3):
     pixels.show() 
 
 def off(*args):
-    pixels.fill((0, 0, 0))
-    pixels.show()
+    return
 
 PATTERNS = {
     'rainbow': rainbow_cycle,
@@ -85,7 +84,7 @@ PATTERNS = {
     "off":off
 }
 pattern = [
-    bounce, #the function that holds the pattern
+    off, #the function that holds the pattern
     0, #the current pixel position
     3, #front tail length
     3, #rear tail legnth
@@ -133,4 +132,12 @@ def loop():
         time.sleep(0.1)
 mainthread = threading.Thread(target=loop)
 mainthread.start()
+pattern = [
+    rainbow_cycle, #the function that holds the pattern
+    0, #the current pixel position
+    3, #front tail length
+    3, #rear tail legnth
+    1, #speed
+    1  #direction
+]
 app.run('0.0.0.0',port=6060,debug=True)
