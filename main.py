@@ -14,6 +14,8 @@ import time
 import board
 import neopixel
 import threading
+import thread_variable_utility as tvu
+
 app = flask.Flask(__name__)
 def impose_color(t,value):
     return tuple(int((ele1 * value)//1) for ele1 in t)
@@ -87,14 +89,6 @@ PATTERNS = {
     'bounce':bounce,
     "off":off
 }
-pattern = [
-    blank, #the function that holds the pattern
-    0, #the current pixel position
-    3, #front tail length
-    3, #rear tail legnth
-    1, #speed
-    1  #direction
-]
 
 @app.route('/')
 def index():
@@ -106,14 +100,16 @@ def index():
 
 @app.route('/run/<pattern_name>')
 def run_pattern(pattern_name):
-    global pattern
     if pattern_name in PATTERNS:
-        pattern = [PATTERNS[pattern_name],0,0,0,1,1]
+        tvu.write("pattern.py",[PATTERNS[pattern_name],0,0,0,1,1])
     return flask.redirect('/')
 
 @app.route('/speed/<int:speed_>')
 def set_speed(speed_):
+    pattern = tvu.read("pattern.py")
     pattern[4] = speed_
+    pattern[0] = pattern[0].__name__
+    tvu.write("pattern.py",pattern)
     return flask.redirect('/')
 
 @app.route('/pull')
@@ -122,6 +118,7 @@ def pull():
     return flask.redirect('/')
 def loop():
     while True:
+        pattern = tvu.read("pattern.py")
         pattern[0](*pattern[1:4])#this is the bit of code that made me question copilot for a moment
         pattern[1] += pattern[4]*pattern[5]
         match pattern[0].__name__:
@@ -133,15 +130,9 @@ def loop():
                 if pattern[1] > num_pixels-1 or pattern[1] < 0:
                     pattern[5] *= -1
         print(pattern[4], pattern[1], pattern[5])
+        pattern[0] = pattern[0].__name__
+        tvu.write("pattern.py",pattern)
         time.sleep(0.1)
 mainthread = threading.Thread(target=loop)
 mainthread.start()
-pattern = [
-    rainbow_cycle, #the function that holds the pattern
-    0, #the current pixel position
-    3, #front tail length
-    3, #rear tail legnth
-    1, #speed
-    1  #direction
-]
 app.run('0.0.0.0',port=6060,debug=True)
