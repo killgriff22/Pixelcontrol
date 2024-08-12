@@ -27,7 +27,7 @@ PATTERNS = {
     "off":off
 }
 if not os.path.exists(pattern_file):
-    tvu.write(pattern_file,["off",0,0,0,1,1])
+    tvu.write(pattern_file,["bounce",0,0,0,1,1])
 
 @app.route('/')
 def index():
