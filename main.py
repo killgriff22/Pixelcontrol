@@ -59,7 +59,7 @@ def loop():
         pattern = tvu.read(pattern_file)
         pattern[0] = PATTERNS[pattern[0]]
         pattern[0](*pattern[1:4])#this is the bit of code that made me question copilot for a moment
-        pattern[1] += pattern[4]*pattern[5]
+        pattern[1] += pattern[4]*pattern[5] if not pattern[0].__name__ in ["off","blank"] else 0
         match pattern[0].__name__:
             case "chase":
                 pattern[1] %= num_pixels# take the remainder of the division of the current pixel position by num_pixels so we dont go out of bounds of the list
