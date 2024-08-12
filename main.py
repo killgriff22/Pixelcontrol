@@ -40,7 +40,7 @@ def index():
 @app.route('/run/<pattern_name>')
 def run_pattern(pattern_name):
     if pattern_name in PATTERNS:
-        tvu.write(pattern_file,[PATTERNS[pattern_name],0,0,0,1,1])
+        tvu.write(pattern_file,[pattern_name,0,0,0,1,1])
     return flask.redirect('/')
 
 @app.route('/speed/<int:speed_>')
