@@ -74,9 +74,13 @@ def bounce(pos,front_tail_width=3,back_tail_width=3):
     pixels[pos if pos < num_pixels else -1] = COLOR
     pixels.show() 
 
-def off(*args):
+def blank(*args):
     return
 
+def off(*args):
+    pixels.fill((0, 0, 0))
+    pixels.show()
+    return
 PATTERNS = {
     'rainbow': rainbow_cycle,
     'chase':chase,
@@ -84,7 +88,7 @@ PATTERNS = {
     "off":off
 }
 pattern = [
-    off, #the function that holds the pattern
+    blank, #the function that holds the pattern
     0, #the current pixel position
     3, #front tail length
     3, #rear tail legnth
