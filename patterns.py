@@ -1,5 +1,6 @@
 import board
 import neopixel
+COLOR = (153, 103, 52)
 def impose_color(t,value):
     return tuple(int((ele1 * value)//1) for ele1 in t)
 pixel_pin = board.D18

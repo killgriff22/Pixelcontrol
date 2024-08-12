@@ -18,7 +18,6 @@ app = flask.Flask(__name__)
 
 pixels.fill((0, 0, 0))
 pixels.show()
-COLOR = (153, 103, 52)
 
 
 PATTERNS = {
