@@ -4,7 +4,7 @@ COLOR = (153, 103, 52)
 def impose_color(t,value):
     return tuple(int((ele1 * value)//1) for ele1 in t)
 pixel_pin = board.D18
-num_pixels = 55
+num_pixels = 50
 ORDER = neopixel.RGB
 pixels = neopixel.NeoPixel(
     pixel_pin, num_pixels, brightness=1.0, auto_write=False, pixel_order=ORDER

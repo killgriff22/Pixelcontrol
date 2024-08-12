@@ -18,7 +18,7 @@ app = flask.Flask(__name__)
 
 pixels.fill((0, 0, 0))
 pixels.show()
-
+pattern_file = "../pattern.py"
 
 PATTERNS = {
     'rainbow': rainbow_cycle,
@@ -26,6 +26,8 @@ PATTERNS = {
     'bounce':bounce,
     "off":off
 }
+if not os.path.exists(pattern_file):
+    tvu.write(pattern_file,[PATTERNS["off"],0,0,0,1,1])
 
 @app.route('/')
 def index():
@@ -38,14 +40,14 @@ def index():
 @app.route('/run/<pattern_name>')
 def run_pattern(pattern_name):
     if pattern_name in PATTERNS:
-        tvu.write("pattern.py",[PATTERNS[pattern_name],0,0,0,1,1])
+        tvu.write(pattern_file,[PATTERNS[pattern_name],0,0,0,1,1])
     return flask.redirect('/')
 
 @app.route('/speed/<int:speed_>')
 def set_speed(speed_):
-    pattern = tvu.read("pattern.py")
+    pattern = tvu.read(pattern_file)
     pattern[4] = speed_
-    tvu.write("pattern.py",pattern)
+    tvu.write(pattern_file,pattern)
     return flask.redirect('/')
 
 @app.route('/pull')
@@ -54,7 +56,7 @@ def pull():
     return flask.redirect('/')
 def loop():
     while True:
-        pattern = tvu.read("pattern.py")
+        pattern = tvu.read(pattern_file)
         pattern[0] = PATTERNS[pattern[0]]
         pattern[0](*pattern[1:4])#this is the bit of code that made me question copilot for a moment
         pattern[1] += pattern[4]*pattern[5]
@@ -68,7 +70,7 @@ def loop():
                     pattern[5] *= -1
         print(pattern[4], pattern[1], pattern[5])
         pattern[0] = pattern[0].__name__
-        tvu.write("pattern.py",pattern)
+        tvu.write(pattern_file,pattern)
         time.sleep(0.1)
 mainthread = threading.Thread(target=loop)
 mainthread.start()
