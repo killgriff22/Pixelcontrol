@@ -1,4 +1,4 @@
-from main import bounce, chase, rainbow_cycle, off, blank
+from patterns import *
 def read(file):
     with open(file, 'r') as f:
         return eval(f.read())
