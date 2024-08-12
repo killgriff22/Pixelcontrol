@@ -35,7 +35,7 @@ def index():
     for pattern in PATTERNS:
         heap_patterns += f'<a href="/run/{pattern}">{pattern}</a><br>'
     heap_patterns += f"""<a href="/pull">Pull</a><br>"""
-    return flask.render_template('index.html',patterns=heap_patterns)
+    return heap_patterns
 
 @app.route('/run/<pattern_name>')
 def run_pattern(pattern_name):
