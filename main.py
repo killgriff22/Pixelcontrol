@@ -15,6 +15,7 @@ import threading
 import thread_variable_utility as tvu
 # import all the patterns from the patterns.py file "*" means any objects, like variables and functions
 from patterns import *
+from support import *
 app = flask.Flask(__name__)
 
 pixels.fill((0, 0, 0))
@@ -23,7 +24,7 @@ pattern_file = "../pattern.py"
 
 
 if not os.path.exists(pattern_file):
-    tvu.write(pattern_file, ["bounce", 0, 0, 0, 1, 1])
+    tvu.write(pattern_file, ["bounce", 0, 0, 0, 1, 1,*COLOR])
 
 
 @app.route('/')
@@ -37,6 +38,7 @@ def index():
 @app.route('/run', methods=["POST"])
 def run_pattern():
     pattern_name = flask.request.form["pattern"]
+    color = hex_to_rgb(flask.request.form["color"][1:])
     if pattern_name in PATTERNS:
         tvu.write(pattern_file, [pattern_name, 0, 0, 0, 1, 1])
     return flask.redirect('/')
@@ -61,7 +63,7 @@ def loop():
         pattern = tvu.read(pattern_file)
         pattern[0] = PATTERNS[pattern[0]]
         # this is the bit of code that made me question copilot for a moment
-        pattern[0](*pattern[1:4])
+        pattern[0](*pattern[1:4], *pattern[5:])
         pattern[1] += pattern[4] * \
             pattern[5] if not pattern[0].__name__ in ["off", "blank"] else 0
         match pattern[0].__name__:
