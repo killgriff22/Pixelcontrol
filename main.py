@@ -30,9 +30,8 @@ if not os.path.exists(pattern_file):
 def index():
     heap_patterns = """"""
     for pattern in PATTERNS:
-        heap_patterns += f'<a href="/run/{pattern}">{pattern}</a><br>'
-    heap_patterns += f"""<a href="/pull">Pull</a><br>"""
-    return flask.render_template("index.html", patterns=heap_patterns)
+        heap_patterns += f'<option value="{pattern}">{pattern}</option><br>'
+    return flask.render_template("index.html", patterns=heap_patterns,pattern=tvu.read(pattern_file)[0])
 
 
 @app.route('/run/<pattern_name>')
