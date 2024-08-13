@@ -40,7 +40,7 @@ def run_pattern():
     pattern_name = flask.request.form["pattern"]
     color = hex_to_rgb(flask.request.form["color"][1:])
     if pattern_name in PATTERNS:
-        tvu.write(pattern_file, [pattern_name, 0, 0, 0, 1, 1])
+        tvu.write(pattern_file, [pattern_name, 0, 0, 0, 1, 1, *color])
     return flask.redirect('/')
 
 
