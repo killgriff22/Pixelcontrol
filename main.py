@@ -21,12 +21,7 @@ pixels.fill((0, 0, 0))
 pixels.show()
 pattern_file = "../pattern.py"
 
-PATTERNS = {
-    'rainbow': rainbow,
-    'chase': chase,
-    'bounce': bounce,
-    "off": off
-}
+
 if not os.path.exists(pattern_file):
     tvu.write(pattern_file, ["bounce", 0, 0, 0, 1, 1])
 
@@ -37,7 +32,7 @@ def index():
     for pattern in PATTERNS:
         heap_patterns += f'<a href="/run/{pattern}">{pattern}</a><br>'
     heap_patterns += f"""<a href="/pull">Pull</a><br>"""
-    return heap_patterns
+    return flask.render_template("index.html", patterns=heap_patterns)
 
 
 @app.route('/run/<pattern_name>')

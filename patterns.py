@@ -74,4 +74,9 @@ def off(*args):
     pixels.show()
     return
 
-print(dir())
+PATTERNS = {
+    'rainbow': rainbow,
+    'chase': chase,
+    'bounce': bounce,
+    "off": off
+}
