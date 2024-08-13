@@ -38,7 +38,9 @@ def index():
 @app.route('/run', methods=["POST"])
 def run_pattern():
     pattern_name = flask.request.form["pattern"]
+    print(flask.request.form["color"])
     color = hex_to_rgb(flask.request.form["color"][1:])
+    print(color)
     if pattern_name in PATTERNS:
         tvu.write(pattern_file, [pattern_name, 0, 0, 0, 1, 1, *color])
     return flask.redirect('/')
