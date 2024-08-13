@@ -34,8 +34,9 @@ def index():
     return flask.render_template("index.html", patterns=heap_patterns,pattern=tvu.read(pattern_file)[0])
 
 
-@app.route('/run/<pattern_name>')
-def run_pattern(pattern_name):
+@app.route('/run', methods=["POST"])
+def run_pattern():
+    pattern_name = flask.request.form["pattern"]
     if pattern_name in PATTERNS:
         tvu.write(pattern_file, [pattern_name, 0, 0, 0, 1, 1])
     return flask.redirect('/')
