@@ -42,6 +42,7 @@ def run_pattern():
     color = color[1:]
     color = [int(color[i:i+2], 16) for i in (0, 2, 4)]
     print(color)
+    print(len([pattern_name, 0, 0, 0, 1, 1, *color]))
     if pattern_name in PATTERNS:
         tvu.write(pattern_file, [pattern_name, 0, 0, 0, 1, 1, *color])
     return flask.redirect('/')
