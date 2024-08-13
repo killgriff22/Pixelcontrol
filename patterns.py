@@ -73,3 +73,5 @@ def off(*args):
     pixels.fill((0, 0, 0))
     pixels.show()
     return
+
+print(dir())

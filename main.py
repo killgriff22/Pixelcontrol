@@ -79,7 +79,7 @@ def loop():
             case "bounce":
                 if pattern[1] > num_pixels-1 or pattern[1] < 0:
                     pattern[5] *= -1
-        print(pattern[4], pattern[1], pattern[5])
+
         pattern[0] = pattern[0].__name__
         tvu.write(pattern_file, pattern)
         time.sleep(0.1)
