@@ -30,9 +30,11 @@ if not os.path.exists(pattern_file):
 @app.route('/')
 def index():
     heap_patterns = """"""
+    color = tvu.read(pattern_file)[6:]
+    color = f"{''.join([hex(i)[2:].zfill(2) for i in color])}"
     for pattern in PATTERNS:
         heap_patterns += f'<option value="{pattern}">{pattern}</option><br>'
-    return flask.render_template("index.html", patterns=heap_patterns,pattern=tvu.read(pattern_file)[0])
+    return flask.render_template("index.html", patterns=heap_patterns,pattern=tvu.read(pattern_file)[0],color=color)
 
 
 @app.route('/run', methods=["POST"])
