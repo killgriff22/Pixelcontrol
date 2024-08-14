@@ -11,3 +11,4 @@ def read(file):
 def write(file, data):
     with open(file, 'w') as f:
         f.write(str(data))
+        f.close()
