@@ -3,6 +3,7 @@
   <form action="/run" method="post">
     <label for="pattern">Pattern: </label>
     <select name="pattern" id="pattern">
+      <option value ="{{pattern}}">{{pattern}}</option>
         {{ patterns|safe }}
     </select>
     <input type="color" name="color" value="#ff0000">
