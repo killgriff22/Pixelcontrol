@@ -67,8 +67,8 @@ def pull():
 def loop():
     while True:
         pattern = tvu.read(pattern_file)
+        print(pattern)
         pattern[0] = PATTERNS[pattern[0]]
-        # this is the bit of code that made me question copilot for a moment
         pattern[0](*pattern[1:4], *pattern[6:])
         pattern[1] += pattern[4] * \
             pattern[5] if not pattern[0].__name__ in ["off", "blank"] else 0
