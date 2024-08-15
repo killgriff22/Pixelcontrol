@@ -7,7 +7,12 @@ def read(file):
                 return eval(readin)
             except:
                  print(readin+" Read")
-                 input()
+                 if input():
+                    with open(file, 'r') as f:
+                        readin = f.read()
+                        f.close()
+                    if input(readin+" Read\n"):
+                         return eval(readin)
                  return ["bounce", 0, 3, 3, 1, 1, 255, 255, 255]
 def write(file, data):
     print(str(data)+" Write")
