@@ -30,11 +30,14 @@ if not os.path.exists(pattern_file):
 @app.route('/')
 def index():
     heap_patterns = """"""
-    color = tvu.read(pattern_file)[6:]
+    file = tvu.read(pattern_file)
+    color = file[6:]
     color = f"{''.join([hex(i)[2:].zfill(2) for i in color])}"
+    ft = file[2]
+    rt = file[3]
     for pattern in PATTERNS:
         heap_patterns += f'<option value="{pattern}">{pattern}</option><br>'
-    return flask.render_template("index.html", patterns=heap_patterns,pattern=tvu.read(pattern_file)[0],color=color)
+    return flask.render_template("index.html", patterns=heap_patterns,pattern=file[0],color=color,num_pixels=num_pixels,ft=ft,rt=rt)
 
 
 @app.route('/run', methods=["POST"])
@@ -43,10 +46,12 @@ def run_pattern():
     color = flask.request.form["color"]
     color = color[1:]
     color = [int(color[i:i+2], 16) for i in (0, 2, 4)]
+    front_tail = flask.request.form['front_tail']
+    rear_tail = flask.request.form['rear_tail']
     print(color)
     print(len([pattern_name, 0, 0, 0, 1, 1, *color]))
     if pattern_name in PATTERNS:
-        tvu.write(pattern_file, [pattern_name, 0, 0, 0, 1, 1, *color])
+        tvu.write(pattern_file, [pattern_name, 0, front_tail, rear_tail, 1, 1, *color])
     return flask.redirect('/')
 
 
