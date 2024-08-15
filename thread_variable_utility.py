@@ -9,7 +9,7 @@ def read(file):
                  print(readin+" Read")
                  return ["bounce", 0, 3, 3, 1, 1, 255, 255, 255]
 def write(file, data):
-    print(data+" Write")
+    print(str(data)+" Write")
     with open(file, 'w') as f:
         f.write(str(data))
         f.close()
