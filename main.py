@@ -86,6 +86,9 @@ def loop():
             case "bounce":
                 if pattern[1] > num_pixels-1 or pattern[1] < 0:
                     pattern[5] *= -1
+            case "off" | "full" | "blank":
+                pattern[1]=0
+                
 
         pattern[0] = pattern[0].__name__
         tvu.write(pattern_file, pattern)
