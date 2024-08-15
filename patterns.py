@@ -74,8 +74,14 @@ def off(*args):
     pixels.show()
     return
 
+def full(*args):
+    r,g,b=args[3:6]
+    pixels.fill((r,g,b))
+    pixels.show()
+    return
 PATTERNS = {
     'rainbow': rainbow,
+    'full':full,
     'chase': chase,
     'bounce': bounce,
     "off": off
