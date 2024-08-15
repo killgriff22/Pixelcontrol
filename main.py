@@ -67,7 +67,6 @@ def pull():
 def loop():
     while True:
         pattern = tvu.read(pattern_file)
-        print(pattern)
         pattern[0] = PATTERNS[pattern[0]]
         pattern[0](*pattern[1:4], *pattern[6:])
         pattern[1] += pattern[4] * \
