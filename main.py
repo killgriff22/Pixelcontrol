@@ -46,8 +46,8 @@ def run_pattern():
     color = flask.request.form["color"]
     color = color[1:]
     color = [int(color[i:i+2], 16) for i in (0, 2, 4)]
-    front_tail = flask.request.form['front_tail']
-    rear_tail = flask.request.form['rear_tail']
+    front_tail = int(flask.request.form['front_tail'])
+    rear_tail = int(flask.request.form['rear_tail'])
     print(color)
     print(len([pattern_name, 0, 0, 0, 1, 1, *color]))
     if pattern_name in PATTERNS:
