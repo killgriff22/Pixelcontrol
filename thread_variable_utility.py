@@ -15,7 +15,6 @@ def read(file):
                          return eval(readin)
                  return ["bounce", 0, 3, 3, 1, 1, 255, 255, 255]
 def write(file, data):
-    print(str(data)+" Write")
     with open(file, 'w') as f:
         f.write(str(data))
         f.close()
