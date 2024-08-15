@@ -7,7 +7,7 @@ def read(file):
                 return eval(readin)
             except:
                  print(readin)
-                 return ["bounce", 0, 3, 3, 1, 1, 255, 0, 0]
+                 return ["bounce", 0, 3, 3, 1, 1, 255, 255, 255]
 def write(file, data):
     with open(file, 'w') as f:
         f.write(str(data))
