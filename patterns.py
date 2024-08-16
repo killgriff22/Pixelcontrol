@@ -95,14 +95,15 @@ def stars(*args):
     if not os.path.exists("stars.txt"):
         tvu.write("stars.txt", [[random.randint(0,num_pixels),100] for i in range(10)])
     else:
-        stars = tvu.read("stars.txt")
-        for i in range(len(stars)):
-            if stars[i][1] <= 0:
-                del stars[i]
+        stars_ = tvu.read("stars.txt")
+        if 
+        for i in range(len(stars_)):
+            if stars_[i][1] <= 0:
+                stars_[i] = [random.randint(0,num_pixels),100]
             else:
                 stars[i][1] -= 1
-                star(stars[i][0],ft,rt,r,g,b,stars[i][1])
-        tvu.write("stars.txt", stars)
+                star(stars_[i][0],ft,rt,r,g,b,stars_[i][1])
+        tvu.write("stars.txt", stars_)
 PATTERNS = {
     'rainbow': rainbow,
     'full':full,
