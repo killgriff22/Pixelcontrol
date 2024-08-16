@@ -106,11 +106,29 @@ def stars(*args):
                 stars_[i][1] -= 1
                 star(stars_[i][0],ft,rt,r,g,b,stars_[i][1])
         tvu.write("stars.txt", stars_)
+
+def rainbow_stars(*args):
+    r,g,b=args[3:6]
+    ft,rt = args[1],args[2]
+    if not os.path.exists("stars.txt"):
+        tvu.write("stars.txt", [[random.randint(0,num_pixels),random.randint(50,100)] for i in range(10)])
+    else:
+        stars_ = tvu.read("stars.txt")
+        for i in range(len(stars_)):
+            if stars_[i][1] <= 0:
+                stars_[i] = [random.randint(0,num_pixels),random.randint(50,100)]
+                if len(stars_) < num_pixels/2-5:
+                    stars_.append([random.randint(0,num_pixels),random.randint(25,100)])
+            else:
+                stars_[i][1] -= 1
+                star(stars_[i][0],ft,rt,*wheel(args[0]),stars_[i][1])
+        tvu.write("stars.txt", stars_)
 PATTERNS = {
     'rainbow': rainbow,
     'full':full,
     'chase': chase,
     'bounce': bounce,
     'stars': stars,
+    'rainbow_stars': rainbow_stars,
     "off": off
 }

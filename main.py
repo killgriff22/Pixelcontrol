@@ -86,6 +86,10 @@ def loop():
                 case "rainbow":
                     # take the remainder of the division of the current pixel position by 256 so that we dont mess up the rainbow math
                     pattern[1] %= 256
+                case "stars":
+                    pattern[1] %= num_pixels
+                case "rainbow_stars":
+                    pattern[1] %= 256
                 case "bounce":
                     if pattern[1] > num_pixels-1 or pattern[1] < 0:
                         pattern[5] *= -1
