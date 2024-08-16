@@ -76,6 +76,7 @@ def loop():
             pattern = tvu.read(pattern_file)
             pattern[0] = PATTERNS[pattern[0]]
             pattern[0](*pattern[1:4], *pattern[6:])
+            pixels.show()
             pattern[1] += pattern[4] * \
                 pattern[5] if not pattern[0].__name__ in ["off", "blank"] else 0
             match pattern[0].__name__:
