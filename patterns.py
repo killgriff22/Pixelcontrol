@@ -100,6 +100,8 @@ def stars(*args):
         for i in range(len(stars_)):
             if stars_[i][1] <= 0:
                 stars_[i] = [random.randint(0,num_pixels),random.randint(50,100)]
+                if len(stars_) < 10:
+                    stars_.append([random.randint(0,num_pixels),random.randint(25,100)])
             else:
                 stars_[i][1] -= 1
                 star(stars_[i][0],ft,rt,r,g,b,stars_[i][1])
