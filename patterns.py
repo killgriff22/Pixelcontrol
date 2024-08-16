@@ -121,7 +121,7 @@ def rainbow_stars(*args):
                     stars_.append([random.randint(0,num_pixels),random.randint(25,100)])
             else:
                 stars_[i][1] -= 1
-                star(stars_[i][0],ft,rt,*wheel((stars_[i][1]*100)%256),stars_[i][1])
+                star(stars_[i][0],ft,rt,*wheel((stars_[i][1]*stars_[i][0])%256),stars_[i][1])
         tvu.write("stars.txt", stars_)
 PATTERNS = {
     'rainbow': rainbow,
