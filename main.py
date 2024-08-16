@@ -21,11 +21,26 @@ app = flask.Flask(__name__)
 pixels.fill((0, 0, 0))
 pixels.show()
 pattern_file = "../pattern.py"
-
+logfile = "../log.txt"
 
 if not os.path.exists(pattern_file):
     tvu.write(pattern_file, ["bounce", 0, 0, 0, 1, 1,*COLOR])
 
+@app.before_request
+def before_request():
+    log={
+        'ip':flask.request.remote_addr,
+        'time':time.time(),
+        'url':flask.request.full_path,
+    }
+    if not os.path.exists(logfile):
+        tvu.write(logfile,{'logs':[log],'ips':[flask.request.remote_addr]})
+    else:
+        logs = tvu.read(logfile)
+        logs['logs'].append(log)
+        if not flask.request.remote_addr in logs['ips']:
+            logs['ips'].append(flask.request.remote_addr)
+        tvu.write(logfile,logs)
 
 @app.route('/')
 def index():
