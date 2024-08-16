@@ -99,7 +99,7 @@ def stars(*args):
             if stars_[i][1] <= 0:
                 stars_[i] = [random.randint(0,num_pixels),100]
             else:
-                stars[i][1] -= 1
+                stars_[i][1] -= 1
                 star(stars_[i][0],ft,rt,r,g,b,stars_[i][1])
         tvu.write("stars.txt", stars_)
 PATTERNS = {
