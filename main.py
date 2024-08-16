@@ -102,4 +102,4 @@ def loop():
 
 mainthread = threading.Thread(target=loop)
 mainthread.start()
-app.run('0.0.0.0', port=6060, debug=True)
+app.run('0.0.0.0', port=80, debug=True)

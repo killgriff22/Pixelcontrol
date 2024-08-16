@@ -5,10 +5,13 @@
     <select name="pattern" id="pattern">
       <option value ="{{pattern}}">{{pattern}}</option>
         {{ patterns|safe }}
-    </select>
-    <input type="color" name="color" value="#{{color}}">
-    <input type="range" max={{numpixels|safe}} min=0 name="front_tail" value="{{ft}}">
-    <input type="range" max={{numpixels|safe}} min=0 name="rear_tail" value="{{rt}}">
+    </select><br>
+    <label for="color">Color: </label>
+    <input type="color" name="color" value="#{{color}}"><br>
+    <label for="front_tail">leading trail length</label><br>
+    <input type="range" max={{numpixels|safe}} min=0 name="front_tail" value="{{ft}}"><br>
+    <label for="rear_tail">trailing trail length</label><br>
+    <input type="range" max={{numpixels|safe}} min=0 name="rear_tail" value="{{rt}}"><br>
     <input type="submit" value="Submit">
 </form>
 <br>

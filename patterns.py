@@ -107,6 +107,6 @@ PATTERNS = {
     'full':full,
     'chase': chase,
     'bounce': bounce,
-    'stars': stars,
+#    'stars': stars,
     "off": off
 }
