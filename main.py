@@ -71,7 +71,7 @@ def pull():
 
 def loop():
     while True:
-        try:
+        #try:
             pixels.fill((0, 0, 0))
             pattern = tvu.read(pattern_file)
             pattern[0] = PATTERNS[pattern[0]]
@@ -96,8 +96,8 @@ def loop():
             pattern[0] = pattern[0].__name__
             tvu.write(pattern_file, pattern)
             time.sleep(0.1)
-        except Exception as e:
-            print(e)
+        #except Exception as e:
+        #    print(e)
 
 
 mainthread = threading.Thread(target=loop)
