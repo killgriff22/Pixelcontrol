@@ -96,7 +96,6 @@ def stars(*args):
         tvu.write("stars.txt", [[random.randint(0,num_pixels),100] for i in range(10)])
     else:
         stars_ = tvu.read("stars.txt")
-        if 
         for i in range(len(stars_)):
             if stars_[i][1] <= 0:
                 stars_[i] = [random.randint(0,num_pixels),100]

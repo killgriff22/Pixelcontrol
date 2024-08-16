@@ -71,28 +71,31 @@ def pull():
 
 def loop():
     while True:
-        pattern = tvu.read(pattern_file)
-        pattern[0] = PATTERNS[pattern[0]]
-        pattern[0](*pattern[1:4], *pattern[6:])
-        pattern[1] += pattern[4] * \
-            pattern[5] if not pattern[0].__name__ in ["off", "blank"] else 0
-        match pattern[0].__name__:
-            case "chase":
-                # take the remainder of the division of the current pixel position by num_pixels so we dont go out of bounds of the list
-                pattern[1] %= num_pixels
-            case "rainbow":
-                # take the remainder of the division of the current pixel position by 256 so that we dont mess up the rainbow math
-                pattern[1] %= 256
-            case "bounce":
-                if pattern[1] > num_pixels-1 or pattern[1] < 0:
-                    pattern[5] *= -1
-            case "off" | "full" | "blank":
-                pattern[1]=0
-                
+        try:
+            pattern = tvu.read(pattern_file)
+            pattern[0] = PATTERNS[pattern[0]]
+            pattern[0](*pattern[1:4], *pattern[6:])
+            pattern[1] += pattern[4] * \
+                pattern[5] if not pattern[0].__name__ in ["off", "blank"] else 0
+            match pattern[0].__name__:
+                case "chase":
+                    # take the remainder of the division of the current pixel position by num_pixels so we dont go out of bounds of the list
+                    pattern[1] %= num_pixels
+                case "rainbow":
+                    # take the remainder of the division of the current pixel position by 256 so that we dont mess up the rainbow math
+                    pattern[1] %= 256
+                case "bounce":
+                    if pattern[1] > num_pixels-1 or pattern[1] < 0:
+                        pattern[5] *= -1
+                case "off" | "full" | "blank":
+                    pattern[1]=0
 
-        pattern[0] = pattern[0].__name__
-        tvu.write(pattern_file, pattern)
-        time.sleep(0.1)
+
+            pattern[0] = pattern[0].__name__
+            tvu.write(pattern_file, pattern)
+            time.sleep(0.1)
+        except Exception as e:
+            print(e)
 
 
 mainthread = threading.Thread(target=loop)
