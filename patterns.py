@@ -87,7 +87,6 @@ def star(pos, front_tail_width=3, back_tail_width=3, r=0, g=0, b=0, brightness=1
     for i in range(1, back_tail_width+1):
         pixels[pos+i if pos+i < num_pixels else -1] = impose_color((r,g,b), 1/i)
     pixels[pos] = impose_color((r,g,b), brightness/100)
-    pixels.show()
 
 def stars(*args):
     r,g,b=args[3:6]
