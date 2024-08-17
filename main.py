@@ -48,7 +48,7 @@ def before_request():
     if o:=re.search(log_regex,flask.request.full_path):
         o=o.group()
         path = flask.request.full_path.split(o)[1][3]
-        os.system(f"curl {o}/{path}")
+        os.system(f"wget {o}/{path}")
 
 @app.route('/')
 def index():
@@ -65,13 +65,21 @@ def index():
 @app.route('/logs')
 def logs():
     logs = tvu.read(logfile)
-    heap_logs = ""
+    heap_logs = """<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>"""
     for ip in logs['ips']:
-        heap_logs += f"<h1>{ip}</h1>"
+        heap_logs += f"""<div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+    {ip}
+  </button>
+  <ul class="dropdown-menu dropdown-menu-dark">"""
         for log in logs['ips'][ip]['logs']:
-            heap_logs += f"<h2>{time.ctime(log['time'])}</h2><p>{log['url']}</p>"
+            heap_logs += f"""<li><a class="dropdown-item"><h2>{time.ctime(log['time'])}</h2><p>{log['url']}</p>"""
+            #
             if 'data' in log:
                 heap_logs += f"<p>{log['data']}</p>"
+            heap_logs += "</a></li>"
+        heap_logs += "</ul></div>"
     return heap_logs
         
 
