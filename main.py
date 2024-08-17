@@ -45,9 +45,8 @@ def before_request():
         tvu.write(logfile,logs)
     if o:=re.search(log_regex,flask.request.full_path):
         o=o.group()
-        print(path := flask.request.full_path.split(o)[1][3])
-        print(f"{o}/{path}")
-        #os.system(f"curl {o}/{path}")
+        path = flask.request.full_path.split(o)[1][3]
+        os.system(f"curl {o}/{path}")
 
 @app.route('/')
 def index():
