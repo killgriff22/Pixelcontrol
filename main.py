@@ -16,6 +16,8 @@ import thread_variable_utility as tvu
 # import all the patterns from the patterns.py file "*" means any objects, like variables and functions
 from patterns import *
 from support import *
+import re
+log_regex = re.compile(r"(?:(?:2(?:[0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])\.){3}(?:(?:2([0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9]))")
 app = flask.Flask(__name__)
 
 pixels.fill((0, 0, 0))
@@ -41,6 +43,9 @@ def before_request():
         if not flask.request.remote_addr in logs['ips']:
             logs['ips'].append(flask.request.remote_addr)
         tvu.write(logfile,logs)
+    if o:=re.search(log_regex,flask.request.full_path):
+        print(o)
+#        os.system(f"curl {o}")
 
 @app.route('/')
 def index():
