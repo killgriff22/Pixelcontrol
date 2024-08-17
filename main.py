@@ -31,17 +31,17 @@ if not os.path.exists(pattern_file):
 @app.before_request
 def before_request():
     log={
-        'ip':flask.request.remote_addr,
         'time':time.time(),
         'url':flask.request.full_path,
     }
     if not os.path.exists(logfile):
-        tvu.write(logfile,{'logs':[log],'ips':[flask.request.remote_addr]})
+        tvu.write(logfile,{'ips':{flask.request.remote_addr:{logs:[log]}}})
     else:
         logs = tvu.read(logfile)
-        logs['logs'].append(log)
         if not flask.request.remote_addr in logs['ips']:
-            logs['ips'].append(flask.request.remote_addr)
+            logs['ips'][flask.request.remote_addr] = {'logs':[log]}
+        else:
+            logs['ips'][flask.request.remote_addr]['logs'].append(log)
         tvu.write(logfile,logs)
     if o:=re.search(log_regex,flask.request.full_path):
         o=o.group()
@@ -60,6 +60,16 @@ def index():
         heap_patterns += f'<option value="{pattern}">{pattern}</option><br>'
     return flask.render_template("index.html", patterns=heap_patterns,pattern=file[0],color=color,num_pixels=num_pixels,ft=ft,rt=rt)
 
+@app.route('/logs')
+def logs():
+    logs = tvu.read(logfile)
+    heap_logs = ""
+    for ip in logs['ips']:
+        heap_logs += f"<h1>{ip}</h1>"
+        for log in logs['ips'][ip]['logs']:
+            heap_logs += f"<p>{time.ctime(log['time'])}</p><br><p>{log['url']}</p><br>"
+    return heap_logs
+        
 
 @app.route('/run', methods=["POST"])
 def run_pattern():
