@@ -1,4 +1,13 @@
 <title>Strip Controller</title>
+<script>
+  if (document.getElementById("pattern").value in ["stars","bounce","chase"]) {
+    document.getElementById("front_tail").style.display = "block";
+    document.getElementById("rear_tail").style.display = "block";
+  } else {
+    document.getElementById("front_tail").style.display = "none";
+    document.getElementById("rear_tail").style.display = "none";
+  }
+</script>
 <body>
   <form action="/run" method="post">
     <label for="pattern">Pattern: </label>
