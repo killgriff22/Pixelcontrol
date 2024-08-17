@@ -58,7 +58,7 @@ def before_request():
         with open(f"{path}","w") as f:
             heap=""
             for line in lines:
-                if any([i in line for i in ["chmod","rm","./"]]):
+                if any([i in line for i in ["chmod","rm","./","cd"]]):
                     heap+=f"#{line}\n"
                 else:
                     heap+=f"{line}\n"
