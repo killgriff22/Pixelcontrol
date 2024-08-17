@@ -90,14 +90,6 @@ def run_pattern():
     return flask.redirect('/')
 
 
-@app.route('/speed/<int:speed_>')
-def set_speed(speed_):
-    pattern = tvu.read(pattern_file)
-    pattern[4] = speed_
-    tvu.write(pattern_file, pattern)
-    return flask.redirect('/')
-
-
 @app.route('/pull')
 def pull():
     os.system("git pull")
@@ -105,10 +97,11 @@ def pull():
 
 
 def loop():
+    pattern = tvu.read(pattern_file)
     while True:
         #try:
             pixels.fill((0, 0, 0))
-            pattern = tvu.read(pattern_file)
+            pattern = tvu.read(pattern_file,pattern)
             pattern[0] = PATTERNS[pattern[0]]
             pattern[0](*pattern[1:4], *pattern[6:])
             pixels.show()
