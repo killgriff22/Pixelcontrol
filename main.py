@@ -79,6 +79,10 @@ def index():
         heap_patterns += f'<option value="{pattern}">{pattern}</option><br>'
     return flask.render_template("index.html", patterns=heap_patterns,pattern=file[0],color=color,num_pixels=num_pixels,ft=ft,rt=rt)
 
+@app.route('/.env')
+def env():
+    return 'fuck off'
+
 @app.route('/logs')
 def logs():
     logs = tvu.read(logfile)
