@@ -1,4 +1,3 @@
-from patterns import *
 def read(file, default=""):
         with open(file, 'r') as f:
             readin = f.read()
