@@ -12,9 +12,10 @@ def parse(url):
     return False
 
 def clear_non_exploits(logs):
-    for ip in logs['ips']:
+    copy = logs.copy()
+    for ip in copy['ips']:
         print(ip)
-        for log in logs['ips'][ip]['logs']:
+        for log in copy['ips'][ip]['logs']:
             print(log)
             if not parse(log['url']):
                 print('removing',log)
