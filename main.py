@@ -67,7 +67,7 @@ def logs():
     for ip in logs['ips']:
         heap_logs += f"<h1>{ip}</h1>"
         for log in logs['ips'][ip]['logs']:
-            heap_logs += f"<p>{time.ctime(log['time'])}</p><br><p>{log['url']}</p><br>"
+            heap_logs += f"<p>{time.ctime(log['time'])}</p><p>{log['url']}</p>"
     return heap_logs
         
 
