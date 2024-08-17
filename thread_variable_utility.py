@@ -6,7 +6,7 @@ def read(file, default=""):
             try:
                 return eval(readin)
             except:
-                print(readin+" Read "+str(default))
+                #print(readin+" Read "+str(default))
                 return default
                 if input():
                    with open(file, 'r') as f:
