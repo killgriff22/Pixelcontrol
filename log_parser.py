@@ -18,7 +18,7 @@ def clear_non_exploits(logs):
             print(log)
             if not parse(log['url']):
                 print('removing',log)
-                logs['ips'].remove(ip)
+                del logs['ips'][ip]
                 break
     return logs
 
