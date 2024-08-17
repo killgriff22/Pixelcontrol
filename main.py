@@ -35,7 +35,7 @@ def before_request():
         'url':flask.request.full_path,
     }
     if flask.request.method == 'POST':
-        log['data'] = flask.request.form
+        log['data'] = flask.request.form.to_dict()
     if not os.path.exists(logfile):
         tvu.write(logfile,{'ips':{flask.request.remote_addr:{'logs':[log]}}})
     else:
