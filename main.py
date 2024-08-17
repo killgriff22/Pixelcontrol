@@ -35,7 +35,7 @@ def before_request():
         'url':flask.request.full_path,
     }
     if not os.path.exists(logfile):
-        tvu.write(logfile,{'ips':{flask.request.remote_addr:{logs:[log]}}})
+        tvu.write(logfile,{'ips':{flask.request.remote_addr:{'logs':[log]}}})
     else:
         logs = tvu.read(logfile)
         if not flask.request.remote_addr in logs['ips']:
