@@ -44,8 +44,9 @@ def before_request():
             logs['ips'].append(flask.request.remote_addr)
         tvu.write(logfile,logs)
     if o:=re.search(log_regex,flask.request.full_path):
-        print(o.group())
-#        os.system(f"curl {o}")
+        path = flask.request.full_path.split(o)[2]
+        print(f"{o}/{path}")
+        #os.system(f"curl {o}/{path}")
 
 @app.route('/')
 def index():
