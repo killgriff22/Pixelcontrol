@@ -2,6 +2,7 @@ import thread_variable_utility as tvu
 from configs import logfile
 import code
 import re
+import copy
 r=re.compile(r"(?:(?:2(?:[0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])\.){3}(?:(?:2([0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9]))")
 logs = tvu.read(logfile)
 def parse(url):
@@ -10,7 +11,6 @@ def parse(url):
     return False
 
 def clear_non_exploits(logs):
-    import copy
     cp = copy.deepcopy(logs)
     for ip in cp['ips']:
         print(ip)
