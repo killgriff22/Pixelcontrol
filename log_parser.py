@@ -6,19 +6,18 @@ r=re.compile(r"(?:(?:2(?:[0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])\.){3}(?:(?:2([0-4
 logs = tvu.read(logfile)
 def parse(url):
     if o:=re.search(r,url):
-        o=o.group()
-        path = url.split(o)[1][3]
         return True
     return False
 
 def clear_non_exploits(logs):
-    copy = logs.copy()
-    for ip in copy['ips']:
+    import copy
+    cp = copy.deepcopy(logs)
+    for ip in cp['ips']:
         print(ip)
-        for log in copy['ips'][ip]['logs']:
+        for log in cp['ips'][ip]['logs']:
             print(log)
             if not parse(log['url']):
-                print('removing',log)
+                print('removing',ip)
                 del logs['ips'][ip]
                 break
     return logs
