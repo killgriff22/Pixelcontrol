@@ -34,6 +34,8 @@ def before_request():
         'time':time.time(),
         'url':flask.request.full_path,
     }
+    if flask.request.method == 'POST':
+        log['data'] = flask.request.form
     if not os.path.exists(logfile):
         tvu.write(logfile,{'ips':{flask.request.remote_addr:{'logs':[log]}}})
     else:
@@ -68,6 +70,8 @@ def logs():
         heap_logs += f"<h1>{ip}</h1>"
         for log in logs['ips'][ip]['logs']:
             heap_logs += f"<h2>{time.ctime(log['time'])}</h2><p>{log['url']}</p>"
+            if 'data' in log:
+                heap_logs += f"<p>{log['data']}</p>"
     return heap_logs
         
 
