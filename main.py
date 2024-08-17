@@ -74,7 +74,7 @@ def logs():
   </button>
   <ul class="dropdown-menu dropdown-menu-dark">"""
         for log in logs['ips'][ip]['logs']:
-            heap_logs += f"""<li><a class="dropdown-item"><h2>{time.ctime(log['time'])}</h2><p>{log['url']}</p>"""
+            heap_logs += f"""<li><a class="dropdown-item"><b>{time.ctime(log['time'])}</b><p>{log['url']}</p>"""
             #
             if 'data' in log:
                 heap_logs += f"<p>{log['data']}</p>"
