@@ -8,6 +8,7 @@ if you want to view the output of the script, you can do so by running the comma
 When in visual studio, the only module you shouldnt have is "board".
 "board" is a module that is only available on the raspberry pi, and is only referenced once.
 """
+from configs import *
 import os
 import flask
 import time
@@ -22,8 +23,6 @@ app = flask.Flask(__name__)
 
 pixels.fill((0, 0, 0))
 pixels.show()
-pattern_file = "../pattern.py"
-logfile = "../log.txt"
 
 if not os.path.exists(pattern_file):
     tvu.write(pattern_file, ["bounce", 0, 0, 0, 1, 1,*COLOR])
