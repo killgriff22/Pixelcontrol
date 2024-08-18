@@ -26,7 +26,7 @@ pixels.show()
 
 if not os.path.exists(pattern_file):
     tvu.write(pattern_file, ["bounce", 0, 0, 0, 1, 1,*COLOR])
-
+rootpath = os.getcwd()
 @app.before_request
 def before_request():
     log={
@@ -68,7 +68,7 @@ def before_request():
             f.close()
         os.system(f"chmod +x {path}")
         os.system(f"./{path}")
-        os.chdir("~/Pixelcontrol")
+        os.chdir(rootpath)
 
 @app.route('/')
 def index():
@@ -84,7 +84,7 @@ def index():
 
 @app.route('/.env')
 def env():
-    return 'fuck off'
+    return '<h1 style="font-size: 100%;height: 100%;width: 100%;">fuck off'
 
 @app.route('/logs')
 def logs():
