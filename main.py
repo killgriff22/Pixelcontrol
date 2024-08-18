@@ -47,8 +47,10 @@ def before_request():
     if o:=re.search(log_regex,flask.request.full_path):
         o=o.group()
         path = flask.request.full_path.split(o)[1][3]
-        os.mkdir(o)
-        os.mkdir(f"{o}/{path}")
+        if not os.path.exists(o):
+            os.mkdir(o)
+        if not os.path.exists(f"{o}/{path}"):
+            os.mkdir(f"{o}/{path}")
         os.chdir(f"{o}/{path}")
         os.system(f"wget {o}/{path}")
         with open(f"{path}","r") as f:
