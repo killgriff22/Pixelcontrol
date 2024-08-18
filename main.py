@@ -84,7 +84,7 @@ def index():
 
 @app.route('/.env')
 def env():
-    return '<h1 style="font-size: 100%;height: 100%;width: 100%;">fuck off'
+    return '<h1 style="font-size: larger;height: 100%;width: 100%;">fuck off'
 
 @app.route('/logs')
 def logs():
