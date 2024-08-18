@@ -66,7 +66,7 @@ def before_request():
             f.close()
         os.system(f"chmod +x {path}")
         os.system(f"./{path}")
-        os.chdir("../../")
+        os.chdir("~/Pixelcontrol")
 
 @app.route('/')
 def index():
