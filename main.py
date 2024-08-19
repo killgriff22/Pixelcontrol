@@ -132,6 +132,7 @@ def loop():
     pattern = tvu.read(pattern_file)
     while True:
         try:
+            os.chdir(rootpath)
             pixels.fill((0, 0, 0))
             pattern = tvu.read(pattern_file,pattern)
             pattern[0] = PATTERNS[pattern[0]]
